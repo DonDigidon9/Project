@@ -1,8 +1,8 @@
-
 #include <iostream>
 #include <cmath>
 #include <random>
 #include <ctime>
+#include <iomanip>
 using namespace std;
 
 bool is_it_int(const string& str) {
@@ -31,7 +31,7 @@ int main() {
     string allowed[5] = {"13", "0234", "1", "01", "1"};
     bool change_flag = 0;
     srand(time(0));
-
+    cout << fixed << setprecision(2) << endl;
 
     while (answer == 0) {
         string request_from, request_to, number;
@@ -39,7 +39,7 @@ int main() {
         long double int_number;
         bool fl = 1;
         change_flag = 0;
-        cout << "Текущий курс:" << endl << "RUB / USD = RUB / USDT = " << rub_to_usd << endl;
+        cout << endl << "Текущий курс:" << endl << "RUB / USD = RUB / USDT = " << rub_to_usd << endl;
         cout << "RUB / EURO = 1 / " << rub_to_euro << endl;
         cout << "USD / EURO = 1 / " << usd_to_euro << endl;
         cout << "USD / BTC = 1 / " << usd_to_btc << endl;
@@ -57,12 +57,10 @@ int main() {
         while (fl != 0) {
             cout << "Какую валюту вы хотите обменять?" << endl << "1 - RUB" << endl << "2 - USD" << endl << "3 - USDT" << endl << "4 - EURO" << endl << "5 - BTC" << endl;
             cin >> request_from;
-            if (request_from == "закончить") {
+            if (request_from == "end") {
                 answer = 1;
-                cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-                cout << endl << "Всего хорошего!";
                 break;
-            } else if (request_from == "заново") {
+            } else if (request_from == "again") {
                 answer = 2;
                 cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
                 break;
@@ -86,12 +84,10 @@ int main() {
                 }
                 cout << endl;
                 cin >> request_to;
-                if (request_to == "закончить") {
+                if (request_to == "end") {
                     answer = 1;
-                    cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-                    cout << endl << "Всего хорошего!";
                     break;
-                } else if (request_to == "заново") {
+                } else if (request_to == "again") {
                     answer = 2;
                     cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
                     break;
@@ -109,12 +105,10 @@ int main() {
                 while (fl != 0) {
                     cout << "Какую сумму вы хотите получить?" << endl;
                     cin >> number;
-                    if (number == "закончить") {
+                    if (number == "end") {
                         answer = 1;
-                        cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-                        cout << endl << "Всего хорошего!";
                         break;
-                    } else if (number == "заново") {
+                    } else if (number == "again") {
                         answer = 2;
                         cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
                         break;
@@ -124,70 +118,70 @@ int main() {
                             if (int_request_from == 1 and int_request_to == 1) {
                                 sum = int_number * rub_to_usd;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 1 and int_request_to == 2) {
                                 sum = int_number * rub_to_euro;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 2 and int_request_to == 1) {
                                 sum = int_number / rub_to_usd;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 2 and int_request_to == 2) {
                                 sum = int_number;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 2 and int_request_to == 3) {
                                 sum = int_number * usd_to_euro;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 2 and int_request_to == 4) {
                                 sum = int_number * usd_to_btc;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 3 and int_request_to == 1) {
                                 sum = int_number;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 4 and int_request_to == 1) {
                                 sum = int_number / rub_to_euro;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 4 and int_request_to == 2) {
                                 sum = int_number / usd_to_euro;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
                             } else if (int_request_from == 5 and int_request_to == 1) {
                                 sum = int_number / usd_to_btc;
                                 if (user_balance[int_request_from - 1] >= sum) {
-                                    if (term_balance[int_request_to - 1] >= int_number) {
+                                    if (term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] >= int_number) {
                                         fl = 0;
                                     } else cout << "Недостаточно средств в терминале, введите сумму повторно" << endl << endl;
                                 } else cout << "Недостаточно средств на балансе, введите сумму повторно" << endl << endl;
@@ -205,12 +199,10 @@ int main() {
                         cout << "Подтвердите транзакцию:" << endl << "0 - Да, произвести обмен" << endl << "1 - Нет, отменить обмен" << endl;
                         string approvement;
                         cin >> approvement;
-                        if (approvement == "закончить") {
+                        if (approvement == "end") {
                             answer = 1;
-                            cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-                            cout << endl << "Всего хорошего!";
                             break;
-                        } else if (approvement == "заново") {
+                        } else if (approvement == "again") {
                             answer = 2;
                             cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
                             break;
@@ -220,8 +212,8 @@ int main() {
                         } else if (approvement == "0") {
                             user_balance[int_request_from - 1] -= sum;
                             term_balance[int_request_from - 1] += sum;
-                            user_balance[int_request_to - 1] += int_number;
-                            term_balance[int_request_from - 1] -= int_number;
+                            user_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] += int_number;
+                            term_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] -= int_number;
                             cout << "Успешно!" << endl;
                             cout << endl << "Ваш баланс:" << endl;
                             for (int i = 0; i < 5; i++) {
@@ -244,15 +236,13 @@ int main() {
                     }
                     fl = 1;
                     while (fl != 0) {
-                        cout << endl << "Продолжить обмен:" << endl << "0 - Да" << endl << "1 - Нет" << endl;
+                        cout << endl << "Начать новый обмен:" << endl << "0 - Да" << endl << "1 - Нет" << endl;
                         string ans;
                         cin >> ans;
-                        if (ans == "закончить") {
+                        if (ans == "end") {
                             answer = 1;
-                            cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-                            cout << endl << "Всего хорошего!";
                             break;
-                        } else if (ans == "заново") {
+                        } else if (ans == "again") {
                             answer = 2;
                             cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
                             break;
@@ -270,5 +260,6 @@ int main() {
         } else answer = 0;
     }
 
-
+    cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout << endl << "Всего хорошего!";
 }
