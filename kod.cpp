@@ -48,7 +48,9 @@ int main() {
         cout << "Для завершения программы в любой момент введите 'end'" << endl << endl;
         cout << endl << "Ваш баланс:" << endl;
         for (int i = 0; i < 5; i++) {
-            cout << user_balance[i] << " " << mas[i] << endl;
+            if (user_balance[i] >= 1000000) {
+                cout << int(user_balance[i]) % 10000000 << " " << mas[i] << endl;
+            } else cout << user_balance[i] << " " << mas[i] << endl;
         }
         cout << endl << "Баланс терминала:" << endl;
         for (int i = 0; i < 5; i++) {
