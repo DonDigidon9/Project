@@ -1,6 +1,8 @@
+
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <ctime>
 using namespace std;
 
 bool is_it_int(const string& str) {
@@ -28,7 +30,7 @@ int main() {
     string mas[5] = {"RUB", "USD", "USDT", "EURO", "BTC"};
     string allowed[5] = {"13", "0234", "1", "01", "1"};
     bool change_flag = 0;
-
+    srand(time(0));
 
 
     while (answer == 0) {
@@ -37,9 +39,8 @@ int main() {
         long double int_number;
         bool fl = 1;
         change_flag = 0;
-        cout << "Текущий курс:" << endl << "RUB : USD = RUB : USDT = " << rub_to_usd << endl;
+        cout << "Текущий курс:" << endl << "RUB / USD = RUB / USDT = " << rub_to_usd << endl;
         cout << "RUB / EURO = 1 / " << rub_to_euro << endl;
-        cout << "USD / USDT = 1 / 1" << endl;
         cout << "USD / EURO = 1 / " << usd_to_euro << endl;
         cout << "USD / BTC = 1 / " << usd_to_btc << endl;
         cout << "Для запуска программы с начала в любой момент введите 'заново'" << endl;
@@ -96,9 +97,9 @@ int main() {
                     break;
                 } else {
                     if (is_it_int(request_to) and request_to.length() == 1) {
-                        if (request_to.length() == 1 and (stoi(request_to) <= 5) and (stoi(request_to) >= 1) and (stoi(request_to) != int_request_from)) fl = 0;
-                        else cout << "Неверный ввод, попробуйте ещё раз" << endl;
-                    } else cout << "Неверный ввод, попробуйте ещё раз" << endl;
+                        if (request_to.length() == 1 and (stoi(request_to) >= 1) and (stoi(request_to) <= allowed[int_request_from - 1].length())) fl = 0;
+                        else cout << "Неверный ввод, попробуйте ещё раз" << endl << endl;
+                    } else cout << "Неверный ввод, попробуйте ещё раз" << endl << endl;
                 }
             }
             if (answer == 1) break;
@@ -106,7 +107,7 @@ int main() {
             if (answer == 0) {
                 int_request_to = stoi(request_to);
                 while (fl != 0) {
-                    cout << "Какую сумму " << mas[int_request_to - 1] << " вы хотите получить?" << endl;
+                    cout << "Какую сумму вы хотите получить?" << endl;
                     cin >> number;
                     if (number == "закончить") {
                         answer = 1;
@@ -231,27 +232,38 @@ int main() {
                         } else cout << "Неверный ввод, повторите попытку" << endl << endl;
                     }
                     if (change_flag) {
-                        random_device rd;
-                        mt19937 gen(rd());
-                        uniform_int_distribution<> distrib(0, 1);
-                        int random_bit = distrib(gen);
-                        if (random_bit == 1) rub_to_usd * 1.05;
-                        else rub_to_usd * 0.95;
-                        random_bit = distrib(gen);
-                        if (random_bit == 1) usd_to_btc * 1.05;
-                        else usd_to_btc * 0.95;
-                        random_bit = distrib(gen);
-                        if (random_bit == 1) rub_to_euro * 1.05;
-                        else rub_to_euro * 0.95;
-                        random_bit = distrib(gen);
-                        random_bit = distrib(gen);
-                        if (random_bit == 1) usd_to_euro * 1.05;
-                        else usd_to_euro * 0.95;
+                        double x;
+                        x = (rand() % (101) - 50) * 0.001;
+                        rub_to_usd *= 1 + x;
+                        x = (rand() % (101) - 50) * 0.001;
+                        rub_to_euro *= 1 + x;
+                        x = (rand() % (101) - 50) * 0.001;
+                        usd_to_euro *= 1 + x;
+                        x = (rand() % (101) - 50) * 0.001;
+                        usd_to_btc *= 1 + x;
                     }
                     fl = 1;
                     while (fl != 0) {
-                        cout << "Продолжить обмен:" << endl << "0 - Да" << endl << "1 - Нет" << endl;
-                        
+                        cout << endl << "Продолжить обмен:" << endl << "0 - Да" << endl << "1 - Нет" << endl;
+                        string ans;
+                        cin >> ans;
+                        if (ans == "закончить") {
+                            answer = 1;
+                            cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+                            cout << endl << "Всего хорошего!";
+                            break;
+                        } else if (ans == "заново") {
+                            answer = 2;
+                            cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
+                            break;
+                        } else if (ans == "1") {
+                            answer = 1;
+                            fl = 0;
+                            break;
+                        } else if (ans == "0") {
+                            answer = 0;
+                            fl = 0;
+                        } else cout << "Неверный ввод, повторите попытку" << endl << endl;
                     }
                 } else answer = 0;
             } else answer = 0;
