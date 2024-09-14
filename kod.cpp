@@ -44,8 +44,8 @@ int main() {
         cout << "USD / EURO = 1 / " << usd_to_euro << endl;
         cout << "USD / USDT = 1 / " << usd_to_usdt << endl;
         cout << "USD / BTC = 1 / " << usd_to_btc << endl;
-        cout << "Для запуска программы с начала в любой момент введите 'заново'" << endl;
-        cout << "Для завершения программы в любой момент введите 'закончить'" << endl << endl;
+        cout << "Для запуска программы с начала в любой момент введите 'again'" << endl;
+        cout << "Для завершения программы в любой момент введите 'end'" << endl << endl;
         cout << endl << "Ваш баланс:" << endl;
         for (int i = 0; i < 5; i++) {
             cout << user_balance[i] << " " << mas[i] << endl;
@@ -238,6 +238,7 @@ int main() {
                         usd_to_usdt *= 1 + x;
                     }
                     fl = 1;
+                    if (answer == 0) {
                     while (fl != 0) {
                         cout << endl << "Начать новый обмен:" << endl << "0 - Да" << endl << "1 - Нет" << endl;
                         string ans;
@@ -246,9 +247,8 @@ int main() {
                             answer = 1;
                             break;
                         } else if (ans == "again") {
-                            answer = 2;
+                            answer = 0;
                             cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
-                            break;
                         } else if (ans == "1") {
                             answer = 1;
                             fl = 0;
@@ -257,7 +257,8 @@ int main() {
                             answer = 0;
                             fl = 0;
                         } else cout << "Неверный ввод, повторите попытку" << endl << endl;
-                    }
+                    } 
+                    } else if (answer == 2) answer = 0;
                 } else answer = 0;
             } else answer = 0;
         } else answer = 0;
